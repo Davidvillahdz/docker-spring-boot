@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero Distribuidos - Examen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center font-sans">
+
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full border-t-4 border-blue-600">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4 text-center">NoticeBoard Universitario</h1>
+        
+        <div class="space-y-3">
+            <p class="text-sm text-gray-600"><strong>Estado del Sistema:</strong> <span id="status" class="text-yellow-600 font-semibold">Cargando...</span></p>
+            <p class="text-sm text-gray-600"><strong>Mensaje:</strong> <span id="result" class="text-gray-700">Esperando respuesta del servidor...</span></p>
+            <p class="text-sm text-gray-600"><strong>Estudiante:</strong> <span id="estudiante" class="text-blue-600 font-bold">Elian David Villa Hernandez</span></p>
+        </div>
+    </div>
+
+    <script>
+        // JS nativo para consumir la API de tu contenedor Spring Boot
+        // Como el contenedor mapea el puerto 8080 de tu API, hacemos la petición a la raíz '/'
+        fetch('/')
+            .then(response => response.json())
+            .then(data => {
+                // Inyectamos las respuestas dinámicas del JSON en las etiquetas HTML
+                document.getElementById('status').innerText = data.status;
+                document.getElementById('status').className = "text-green-600 font-semibold";
+                document.getElementById('result').innerText = data.result;
+                document.getElementById('estudiante').innerText = data.estudiante;
+            })
+            .catch(error => {
+                console.error('Error conectando con la API:', error);
+                document.getElementById('status').innerText = "Desconectado";
+                document.getElementById('status').className = "text-red-600 font-semibold";
+            });
+    </script>
+</body>
+</html>
